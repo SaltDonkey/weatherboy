@@ -1,33 +1,41 @@
 import weatherAPI
-import weatherJSONParsing
-import location
-
+import weatherFunctions
 '''
-This is the implmentation of weatherAPI uses the free version of openweathermap.org
+This is the implmentation of the weatherboy functionality
 '''
+def runTemp(locationStr, apiKey):
+    weatherJSON = weatherAPI.getWeatherJSON(locationStr, apiKey)
 
-def createLocation(locationStr):
-    locationObj = location.getLatLon(locationStr)
-
-    return locationObj
-
-
-def runAll(locationStr, apiKey):
-    location = createLocation(locationStr)
-
-    if not location:
-        return
-
-    lat, lon = location.latitude, location.longitude
-
-
-    weatherURL = weatherAPI.createOpenWeatherURL(lat, lon, apiKey)
-
-    response = weatherAPI.getResponse(weatherURL)
-    weatherJSON = response.json()
+    if not weatherJSON:
+        return None
 
     if weatherJSON['cod'] == 200:
-        return weatherJSONParsing.constructWeatherboyInfoStr(locationStr, weatherJSON)
+        return weatherFunctions.weatherboyTemp(locationStr, weatherJSON)
+
+    else:
+        return weatherJSON['cod']
+
+def runDesc(locationStr, apiKey):
+    weatherJSON = weatherAPI.getWeatherJSON(locationStr, apiKey)
+
+    if not weatherJSON:
+        return None
+
+    if weatherJSON['cod'] == 200:
+        return weatherFunctions.weatherboyDesc(locationStr, weatherJSON)
+
+    else:
+        return weatherJSON['cod']
+
+
+def runSummary(locationStr, apiKey):
+    weatherJSON = weatherAPI.getWeatherJSON(locationStr, apiKey)
+
+    if not weatherJSON:
+        return None
+
+    if weatherJSON['cod'] == 200:
+        return weatherFunctions.weatherboySummary(locationStr, weatherJSON)
 
     else:
         return weatherJSON['cod']

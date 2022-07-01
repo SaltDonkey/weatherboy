@@ -19,10 +19,38 @@ if __name__ == "__main__":
 
     @bot.command
     @lightbulb.option("location", "Enter in a location to check the weather!", type = str, default = "Elk Grove, CA")
-    @lightbulb.command("checkweather", "Checks the weather for the given location")
+    @lightbulb.command("checktemp", "Checks the weather for the given location")
     @lightbulb.implements(lightbulb.SlashCommand)
     async def checkweather(context):
-        weatherResult = weather.runAll(context.options.location, openweatherAPIkey)
+        weatherResult = weather.runTemp(context.options.location, openweatherAPIkey)
+
+        if weatherResult is None:
+            await context.respond("No results found for given location of \"{}\"".format(context.options.location))
+        elif type(weatherResult) is int:
+            await context.respond("An error of code {} has occurred from openweathermap.org".format(weatherResult))
+        else:
+            await context.respond(weatherResult)
+
+    @bot.command
+    @lightbulb.option("location", "Enter in a location to check the coordinates!", type = str, default = "Elk Grove, CA")
+    @lightbulb.command("checkdesc", "Displays the conditions of the weather of a given location")
+    @lightbulb.implements(lightbulb.SlashCommand)
+    async def checkweather(context):
+        weatherResult = weather.runDesc(context.options.location, openweatherAPIkey)
+
+        if weatherResult is None:
+            await context.respond("No results found for given location of \"{}\"".format(context.options.location))
+        elif type(weatherResult) is int:
+            await context.respond("An error of code {} has occurred from openweathermap.org".format(weatherResult))
+        else:
+            await context.respond(weatherResult)
+
+    @bot.command
+    @lightbulb.option("location", "Enter in a location to check the weather!", type = str, default = "Elk Grove, CA")
+    @lightbulb.command("checksummary", "Checks the both the weather temperature and condition for the given location")
+    @lightbulb.implements(lightbulb.SlashCommand)
+    async def checkweather(context):
+        weatherResult = weather.runSummary(context.options.location, openweatherAPIkey)
 
         if weatherResult is None:
             await context.respond("No results found for given location of \"{}\"".format(context.options.location))
