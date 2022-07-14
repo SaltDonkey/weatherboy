@@ -4,8 +4,7 @@ import weather
     
 def createWeatherboy(token):
     return lightbulb.BotApp (
-        token = token, 
-        default_enabled_guilds = (530535940993843201)
+        token = token
         )
 
 if __name__ == "__main__":
