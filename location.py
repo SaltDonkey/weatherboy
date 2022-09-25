@@ -2,9 +2,8 @@ from geopy.geocoders import Nominatim
 
 geolocator = Nominatim(user_agent = "weatherboy")
 
-def createLocator(locationString, locator = geolocator) -> Nominatim.geocode:
+def createLocator(locationString : str, locator = geolocator) -> Nominatim.geocode:
     """
     Creates a location from the Nominatim.geocode() method
     """
-    location = locator.geocode(locationString)
-    return location
+    return locator.geocode(locationString)
